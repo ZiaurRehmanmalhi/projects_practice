@@ -1,0 +1,28 @@
+from selenium import webdriver
+import time
+driver = webdriver.Chrome(executable_path="chromedriver.exe")
+driver.get("https://www.codewithharry.com/")
+
+--------------------------------------------
+print(driver.title)               # Title nikale ga
+time.sleep(5)                     # 5 sec stay kre ga
+driver.back()                     # back jae ga
+driver.forward()                  # nhla jae ga
+driver.minimize_window()          # minimum
+driver.maximize_window()          # maximum
+
+--------- conditional commands -------------
+is_displayed()                   # input box enable ha ya nhi?
+is_enable()            no        # kya input mne likh skty hn?
+is_selected()          no        # select button kam krta ha ya nhi?
+driver.find_element_by_id('javascript')
+
+--------------- clss name search -------------
+dr.find_element("id", "id123")
+dr.find_element("class", "clas12e")
+dr.find_element("tag name", "pre")
+dr.find_element("xpath", "//button[@tag='213']")
+
+
+var = driver.find_element_by_class_name("search-field")
+print(var.is_displayed())
