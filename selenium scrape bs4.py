@@ -2,6 +2,8 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+
+
 driver = webdriver.Chrome()
 driver.get("https://www.youtube.com/@zusmani78/videos")
 last_height = driver.execute_script("return document.documentElement.scrollHeight")
