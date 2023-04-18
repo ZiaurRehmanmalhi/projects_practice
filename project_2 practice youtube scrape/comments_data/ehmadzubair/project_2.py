@@ -6,7 +6,7 @@ import os
 
 
 def create_csv(channel_link):
-    channel_username = channel_link.split("com/")[-1].replace('@', '')
+    channel_username = channel_link.split("/")[-1].replace('@', '')
     if not os.path.exists(channel_username):
         os.makedirs(channel_username)
     driver = webdriver.Chrome()
@@ -23,11 +23,11 @@ def create_csv(channel_link):
 
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
-    all_content = soup.find_all('ytd-rich-grid-media')
+    all_content = soup.find_all('ytd-grid-video-renderer')
 
     for video_data in all_content:
-        video_title = video_data.find('a', {'id': 'video-title-link'}).text.strip()
-        video_link = 'https://www.youtube.com' + video_data.find('a', {'id': 'video-title-link'}).get('href')
+        video_title = video_data.find('a', {'id': 'video-title'}).text.strip()
+        video_link = 'https://www.youtube.com' + video_data.find('a', {'id': 'video-title'}).get('href')
 
         driver.get(video_link)
         time.sleep(2)
@@ -65,5 +65,5 @@ def create_csv(channel_link):
     driver.quit()
 
 
-create_csv("https://www.youtube.com/@ehmadzubair/videos")
-print("Data successfully saved to csv file.")
+create_csv("https://www.youtube.com/@ehmadzubair")
+print("Data saved to csv file")

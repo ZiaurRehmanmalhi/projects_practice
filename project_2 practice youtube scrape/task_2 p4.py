@@ -6,7 +6,7 @@ import os
 
 
 def create_csv(channel_link):
-    channel_username = channel_link.split("com/")[-1].replace('@', '')
+    channel_username = channel_link.split("com/")[-1].replace('@', '').replace('/', '-')
     if not os.path.exists(channel_username):
         os.makedirs(channel_username)
     driver = webdriver.Chrome()
@@ -23,7 +23,7 @@ def create_csv(channel_link):
 
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
-    all_content = soup.find_all('ytd-rich-grid-media')
+    all_content = soup.find_all('ytd-rich-item-renderer')
 
     for video_data in all_content:
         video_title = video_data.find('a', {'id': 'video-title-link'}).text.strip()
@@ -43,7 +43,7 @@ def create_csv(channel_link):
 
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
-        all_content = soup.find_all('ytd-comment-thread-renderer')
+        all_content = soup.find_all('ytd-rich-grid-media')
 
         data = []
         for comment_data in all_content:
@@ -60,10 +60,13 @@ def create_csv(channel_link):
 
         df = pd.DataFrame(data,
                           columns=['Username', 'Comment Time', 'Comment Text', 'Thumbnail URL', 'Number of Likes'])
-        df.to_csv(os.path.join(channel_username, video_title.replace('/', '|') + '.csv'), index=False)
+        if not os.path.exists(channel_username):
+            os.makedirs(channel_username)
+
+        df.to_csv(os.path.join(channel_username, video_title + '.csv'), index=False)
 
     driver.quit()
 
 
 create_csv("https://www.youtube.com/@ehmadzubair/videos")
-print("Data successfully saved to csv file.")
+print("Data saved to csv file")
