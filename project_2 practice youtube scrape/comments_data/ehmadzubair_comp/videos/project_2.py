@@ -5,6 +5,10 @@ import time
 import os
 
 
+url = input("Enter Any Youtube Chanel URL: ")
+url += "/videos"
+
+
 def create_csv(channel_link):
     channel_username = channel_link.split("com/")[-1].replace('@', '')
     if not os.path.exists(channel_username):
@@ -65,5 +69,5 @@ def create_csv(channel_link):
     driver.quit()
 
 
-create_csv("https://www.youtube.com/@ehmadzubair/videos")
+create_csv(url)
 print("Data successfully saved to csv file.")

@@ -5,10 +5,15 @@ import time
 import os
 
 
+url = input("Enter Any Youtube Chanel URL: ")
+url += "/videos"
+
+
 def create_csv(channel_link):
     channel_username = channel_link.split("com/")[-1].replace('@', '')
     if not os.path.exists(channel_username):
         os.makedirs(channel_username)
+
     driver = webdriver.Chrome()
     driver.get(channel_link)
 
@@ -30,12 +35,12 @@ def create_csv(channel_link):
         video_link = 'https://www.youtube.com' + video_data.find('a', {'id': 'video-title-link'}).get('href')
 
         driver.get(video_link)
-        time.sleep(2)
+        time.sleep(4)
 
         last_height = driver.execute_script("return document.documentElement.scrollHeight")
         while True:
             driver.execute_script("window.scrollTo(0, arguments[0]);", last_height)
-            time.sleep(1.5)
+            time.sleep(4)
             new_height = driver.execute_script("return document.documentElement.scrollHeight")
             if new_height == last_height:
                 break
@@ -43,6 +48,7 @@ def create_csv(channel_link):
 
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
+        
         all_content = soup.find_all('ytd-comment-thread-renderer')
 
         data = []
@@ -65,5 +71,5 @@ def create_csv(channel_link):
     driver.quit()
 
 
-create_csv("https://www.youtube.com/@ehmadzubair/videos")
-print("Data successfully saved to csv file.")
+create_csv(url)
+print("Data successfully saved to csv files.")
